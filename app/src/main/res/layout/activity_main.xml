@@ -6,13 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.example.mycustomview.BottomButtonsView
+        android:id="@+id/bottomButtonsView"
+        style="@style/buttonStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        app:bottomNegativeBackgroundColor="@color/teal_700"
+        app:bottomNegativeButtonText="Hide"
+        app:bottomPositiveBackgroundColor="@color/purple_700"
+        app:bottomPositiveButtonText="Show"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:progressMode="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
