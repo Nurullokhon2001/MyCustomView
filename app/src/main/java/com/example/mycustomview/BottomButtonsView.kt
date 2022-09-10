@@ -9,6 +9,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.example.mycustomview.databinding.PartButtonBinding
 
+enum class BottomButtonsClass {
+    POSITIVE, NEGATIVE
+}
+
+typealias OnBottomButtonClickListener = (BottomButtonsClass) -> Unit
+
 class BottomButtonsView(
     context: Context,
     attributeSet: AttributeSet?,
@@ -17,6 +23,13 @@ class BottomButtonsView(
 ) : ConstraintLayout(context, attributeSet, defStyleAttr, defStyleRes) {
 
     private val binding: PartButtonBinding
+    private var listener: OnBottomButtonClickListener? = null
+
+    var isProgressMode
+        get() = false
+        set(value) {
+            binding.progress.isVisible = value
+        }
 
     constructor(
         context: Context,
@@ -36,6 +49,7 @@ class BottomButtonsView(
         inflater.inflate(R.layout.part_button, this, true)
         binding = PartButtonBinding.bind(this)
         initializeAttributes(attributeSet, defStyleAttr, defStyleRes)
+        initializeBottomButtonClickListener()
     }
 
     private fun initializeAttributes(
@@ -54,11 +68,11 @@ class BottomButtonsView(
         with(binding) {
             val positiveButtonText =
                 typeArray.getString(R.styleable.BottomButtonsView_bottomPositiveButtonText)
-            positiveButton.text = positiveButtonText
+            setBottomPositiveButtonText(positiveButtonText)
 
             val negativeButtonText =
                 typeArray.getString(R.styleable.BottomButtonsView_bottomNegativeButtonText)
-            negativeButton.text = negativeButtonText
+            setBottomNegativeButtonText(negativeButtonText)
 
             val positiveButtonBackground =
                 typeArray.getColor(
@@ -76,8 +90,29 @@ class BottomButtonsView(
 
             val progressMode =
                 typeArray.getBoolean(R.styleable.BottomButtonsView_progressMode, false)
-            progress.isVisible = progressMode
+            this@BottomButtonsView.isProgressMode = progressMode
         }
         typeArray.recycle()
+    }
+
+    private fun initializeBottomButtonClickListener() {
+        binding.positiveButton.setOnClickListener {
+            listener?.invoke(BottomButtonsClass.POSITIVE)
+        }
+        binding.negativeButton.setOnClickListener {
+            listener?.invoke(BottomButtonsClass.NEGATIVE)
+        }
+    }
+
+    fun setOnClickInBottomButtonListener(listener: OnBottomButtonClickListener?) {
+        this.listener = listener
+    }
+
+    fun setBottomPositiveButtonText(text: String?) {
+        binding.positiveButton.text = text ?: "show"
+    }
+
+    fun setBottomNegativeButtonText(text: String?) {
+        binding.negativeButton.text = text ?: "hide"
     }
 }

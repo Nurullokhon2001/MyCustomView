@@ -12,12 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:bottomNegativeBackgroundColor="@color/teal_700"
-        app:bottomNegativeButtonText="Hide"
+        app:bottomNegativeButtonText="Negative"
         app:bottomPositiveBackgroundColor="@color/purple_700"
-        app:bottomPositiveButtonText="Show"
+        app:bottomPositiveButtonText="Positive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:progressMode="true" />
+        app:progressMode="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
