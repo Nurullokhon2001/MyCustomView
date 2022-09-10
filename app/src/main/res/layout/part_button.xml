@@ -13,6 +13,7 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="@color/white"
         android:text="Positive Button"
+        android:freezesText="true"
         android:textAllCaps="false"
         android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@id/space"

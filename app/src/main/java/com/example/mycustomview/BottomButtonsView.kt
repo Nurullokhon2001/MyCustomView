@@ -3,6 +3,8 @@ package com.example.mycustomview
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -115,4 +117,46 @@ class BottomButtonsView(
     fun setBottomNegativeButtonText(text: String?) {
         binding.negativeButton.text = text ?: "hide"
     }
+
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()!!
+        val savedState = SavedState(superState)
+        savedState.negativeButtonText = binding.negativeButton.text.toString()
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as SavedState
+        super.onRestoreInstanceState(savedState.superState)
+        binding.negativeButton.text = savedState.negativeButtonText
+    }
+
+    class SavedState : BaseSavedState {
+
+        var negativeButtonText: String? = null
+
+        constructor(superState: Parcelable) : super(superState)
+        constructor(parcel: Parcel) : super(parcel) {
+            negativeButtonText = parcel.readString()
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeString(negativeButtonText)
+        }
+
+        companion object {
+            @JvmField
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(source: Parcel): SavedState {
+                    return SavedState(source)
+                }
+
+                override fun newArray(size: Int): Array<SavedState?> {
+                    return Array(size) { null }
+                }
+            }
+        }
+    }
+
 }
